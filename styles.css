@@ -1,0 +1,270 @@
+:root {
+  --blue: #5090f7;   /* lighter blue */
+  --white: #fffffffb;
+}
+
+/* Base */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background: var(--white);
+  color: var(--blue);
+}
+
+/* Faint logo background */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url("Images/gsso-logo.jpeg") no-repeat center center;
+  background-size: 700px; /* bigger logo */
+  opacity: 0.06; /* faint effect */
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Header */
+.header {
+  background: var(--blue);
+  color: var(--white);
+  padding: 1rem;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0; padding: 0;
+}
+.nav-links a {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+}
+.nav-toggle { display: none; }
+
+/* Hero */
+.hero {
+  background: var(--blue);
+  color: var(--white);
+  padding: 4rem 2rem;
+  text-align: center;
+}
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+.hero p {
+  font-size: 1.25rem;
+  color: var(--white);
+}
+.hero-actions { margin-top: 1rem; }
+
+/* Buttons */
+.btn {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+.btn-primary {
+  background: var(--white);
+  color: var(--blue);
+}
+.btn-ghost {
+  border: 1px solid var(--white);
+  color: var(--white);
+  background: transparent;
+}
+.btn-outline {
+  border: 1px solid var(--white);
+  color: var(--white);
+  border-radius: 8px;
+}
+
+.logo {
+  font-size: 3rem;       /* make GSSO big */
+  font-weight: 700;
+}
+
+.logo sub {
+  font-size: 1rem;       /* smaller than the main text */
+  vertical-align: sub;   /* keep it in subscript position */
+  margin-left: 0.25rem;  /* add a little spacing */
+  font-weight: 400;
+}
+
+/* Sections */
+.section { padding: 2rem 1rem; }
+.section-alt { background: var(--blue); color: var(--white); }
+.section-header { text-align: center; margin-bottom: 1rem; }
+
+/* Events */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+.card {
+  background: var(--white);
+  color: var(--blue);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+.meta { color: var(--blue); font-size: 0.9rem; }
+
+/* Chips */
+.chip {
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--blue);
+  background: var(--white);
+  color: var(--blue);
+  cursor: pointer;
+}
+.chip.active {
+  background: var(--blue);
+  color: var(--white);
+}
+
+/* Gallery */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.5rem;
+}
+.gallery-item {
+  background: var(--blue);
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  opacity: 0.2;
+}
+
+/* Financials */
+.finance-search {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.finance-result.hidden, .empty-state.hidden { display: none; }
+.finance-summary {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.summary-card {
+  flex: 1;
+  background: var(--white);
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.summary-card h4 { margin: 0 0 0.25rem; color: var(--blue); }
+.summary-card p { margin: 0; font-weight: 700; }
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.table th, .table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--blue);
+  text-align: left;
+}
+.table th { background: var(--blue); color: var(--white); }
+.table tr:last-child td { border-bottom: none; }
+
+/* Badges */
+.badge {
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+.badge-danger {
+  background: var(--white);
+  color: #b00020;
+  border: 1px solid #b00020;
+}
+.badge-success {
+  background: var(--white);
+  color: var(--blue);
+  border: 1px solid var(--blue);
+}
+
+/* Shake animation for search input */
+.shake {
+  animation: shake 0.3s;
+}
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+/* Contact */
+.contact-form {
+  background: var(--white);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.contact-form label { display: block; margin-bottom: 0.75rem; }
+.contact-form input, .contact-form textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--blue);
+  border-radius: 8px;
+  margin-top: 0.25rem;
+  background: var(--white);
+  color: var(--blue);
+}
+.form-note { color: var(--blue); font-size: 0.9rem; }
+.success-msg {
+  color: var(--blue);
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+/* Footer */
+.footer {
+  background: var(--blue);
+  color: var(--white);
+  text-align: center;
+  padding: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .nav-toggle { display: inline-block; }
+  .nav-links {
+    position: absolute;
+    right: 0; top: 64px;
+    background: var(--blue);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    padding: 0.5rem;
+    display: none;
+    flex-direction: column;
+    min-width: 220px;
+  }
+  .nav-links.show { display: flex; }
+  .finance-summary { flex-direction: column; }
+}
