@@ -1,4 +1,4 @@
-// Smooth interactions and demo data
+// Smooth interactions 
 
 // Mobile nav toggle with fade-in animation
 const navToggle = document.querySelector('.nav-toggle');
@@ -13,13 +13,53 @@ if (navToggle) {
 // Footer year
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Sample events data
+// Events data
 const events = [
-  { title: "Wedding: Ijeoma Bibiana Auocha & Ugochukwu Philip Amadi", type: "wedding", date: "2026-01-24", location: "Owerri, Imo State", desc: "A gorgeous union in Owerri, 10am start.",status: "upcoming" }, 
-  { title: "Wedding: Adeola & Marvelous", type: "wedding", date: "2026-01-03", location: "Jabi, Abuja", desc: "A beautiful union in Abuja, 4pm start.", status: "passed" }, 
-  { title: "Wedding: Divine & Martins", type: "wedding", date: "2026-01-03", location: "Owerri, Imo State", desc: "Celebrating love in Owerri, 11am ceremony.", status: "passed" }, 
-  { title: "Wedding: Jennifer & Obinna", type: "wedding", date: "2026-01-03", location: "Nwaorieubi Mbaitolu L.G.A, Imo State", desc: "Sacred vows exchanged at 10am.", status: "passed" }, 
-  { title: "Child Dedication: Zemira Chinemerem Gospel", type: "other", date: "2025-12-14", location: "Owerri, Imo State", desc: "Dedication service at 10am.", status: "passed" },
+  { 
+    title: "Wedding: Ijeoma & Ugochukwu", 
+    type: "wedding", 
+    date: "2026-01-24", 
+    location: "Owerri, Imo State", 
+    desc: "A gorgeous union in Owerri, 10am start.", 
+    status: "upcoming",
+    image: "Images/Ugo-Iv.jpg"   
+  }, 
+  { 
+    title: "Wedding: Adeola & Marvelous", 
+    type: "wedding", 
+    date: "2026-01-03", 
+    location: "Jabi, Abuja", 
+    desc: "A beautiful union in Abuja, 4pm start.", 
+    status: "passed",
+    image: "Images/Marvelous-Iv.jpg"
+  }, 
+  { 
+    title: "Wedding: Divine & Martins", 
+    type: "wedding", 
+    date: "2026-01-03", 
+    location: "Owerri, Imo State", 
+    desc: "Celebrating love in Owerri, 11am ceremony.", 
+    status: "passed",
+    image: "Images/Martins-Iv.jpg"
+  }, 
+  { 
+    title: "Wedding: Jennifer & Obinna", 
+    type: "wedding", 
+    date: "2026-01-03", 
+    location: "Nwaorieubi Mbaitolu L.G.A, Imo State", 
+    desc: "Sacred vows exchanged at 10am.", 
+    status: "passed",
+    image: "Images/Obinna-Iv.jpg"
+  }, 
+  { 
+    title: "Child Dedication: Zemira Chinemerem Gospel", 
+    type: "other", 
+    date: "2025-12-14", 
+    location: "Owerri, Imo State", 
+    desc: "Dedication service at 10am.", 
+    status: "passed",
+    image: "Images/Tama-iv.png"
+  },
 ];
 
 // Render events
@@ -31,17 +71,32 @@ function renderEvents(filter = 'all') {
     const card = document.createElement('div');
     card.className = 'card hover-card';
     card.innerHTML = `
-      <h3>${e.title}</h3>
-      <p class="meta">${new Date(e.date).toLocaleDateString()} • ${e.location} • ${e.type.replace('-', ' ')}</p>
-      <p>${e.desc}</p>
-      <div>
-        <button class="btn btn-ghost">Details</button>
+      <div class="card-content">
+        <h3>${e.title}</h3>
+        <p class="meta">${new Date(e.date).toLocaleDateString()} • ${e.location} • ${e.type.replace('-', ' ')}</p>
+        <p>${e.desc}</p>
+        <div>
+          <button class="btn btn-ghost">Details</button>
+        </div>
       </div>
+      ${e.image ? `<div class="card-image"><img src="${e.image}" alt="${e.title} IV" /></div>` : ''} 
     `;
+
+    // Click handler: only one open at a time
+    card.addEventListener('click', () => {
+      // Close all other cards
+      document.querySelectorAll('.card.show-image').forEach(c => {
+        if (c !== card) c.classList.remove('show-image');
+      });
+      // Open this one
+      card.classList.toggle('show-image');
+    });
+
     eventsGrid.appendChild(card);
   });
 }
 renderEvents();
+
 
 // Filter chips
 document.querySelectorAll('.chip').forEach(chip => {
@@ -52,35 +107,20 @@ document.querySelectorAll('.chip').forEach(chip => {
   });
 });
 
-// Sample financials data (replace with real data or API)
-const members = [
-  {
-    name: "Chinedu Okafor",
-    levies: [
-      { label: "Annual Dues 2025", amount: 20000, paid: true, date: "2025-01-15" },
-      { label: "Project Levy", amount: 50000, paid: false, date: null },
-      { label: "Event Support", amount: 15000, paid: true, date: "2025-06-10" },
-    ],
-  },
-  {
-    name: "Kelechi Nwosu",
-    levies: [
-      { label: "Annual Dues 2025", amount: 20000, paid: true, date: "2025-01-20" },
-      { label: "Project Levy", amount: 50000, paid: true, date: "2025-07-02" },
-      { label: "Event Support", amount: 15000, paid: false, date: null },
-    ],
-  },
-  {
-    name: "Emeka Uzo",
-    levies: [
-      { label: "Annual Dues 2025", amount: 20000, paid: false, date: null },
-      { label: "Project Levy", amount: 50000, paid: false, date: null },
-      { label: "Event Support", amount: 15000, paid: false, date: null },
-    ],
-  },
-];
 
-// Finance search
+
+// Filter chips
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    renderEvents(chip.dataset.filter);
+  });
+});
+
+// Financials from Google Sheet
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRjMzdE5g25gwJTamimPoUf-xvVLSqTb_dF8IRiPn7W82Uquj9K6kXtO-8FS1O-TjRPrIw1E0BS-U_8/gviz/tq?tqx=out:json";
+
 const searchInput = document.getElementById('memberSearch');
 const searchBtn = document.getElementById('searchBtn');
 const financeResult = document.getElementById('financeResult');
@@ -93,31 +133,41 @@ const totalPaidEl = document.getElementById('totalPaid');
 const totalOutstandingEl = document.getElementById('totalOutstanding');
 const paymentTableEl = document.getElementById('paymentTable');
 
-function formatCurrency(n) {
-  return `₦${n.toLocaleString('en-NG')}`;
-}
+// NEW: Fetch and parse Google Sheet
+let members = [];
+fetch(SHEET_URL)
+  .then(res => res.text())
+  .then(text => {
+    const json = JSON.parse(text.substr(47).slice(0, -2)); // strip Google’s wrapper
+    const rows = json.table.rows;
+    members = rows.map(r => ({
+      name: r.c[0]?.v || "",
+      email: r.c[1]?.v || "",
+      levies: [
+        { label: "Annual Dues 2024", status: r.c[2]?.v || "N/A" },
+        { label: "Annual Dues 2025", status: r.c[3]?.v || "N/A" },
+      ]
+    }));
+    console.log(members); // Debug: check if your name appears here
+  });
 
+// Render finance info
 function renderMemberFinance(member) {
-  const totalLevies = member.levies.reduce((sum, l) => sum + l.amount, 0);
-  const totalPaid = member.levies.filter(l => l.paid).reduce((sum, l) => sum + l.amount, 0);
-  const outstanding = totalLevies - totalPaid;
-
   memberNameEl.textContent = member.name;
-  memberStatusEl.textContent = outstanding > 0 ? 'Outstanding' : 'Cleared';
-  memberStatusEl.className = outstanding > 0 ? 'badge badge-danger' : 'badge badge-success';
+  memberStatusEl.textContent = (member.levies.some(l => l.status.includes("Cleared"))) ? 'Cleared' : 'Outstanding';
+  memberStatusEl.className = (member.levies.some(l => l.status.includes("Cleared"))) ? 'badge badge-success' : 'badge badge-danger';
 
-  totalLeviesEl.textContent = formatCurrency(totalLevies);
-  totalPaidEl.textContent = formatCurrency(totalPaid);
-  totalOutstandingEl.textContent = formatCurrency(outstanding);
+  // Totals are textual now, so we just display statuses
+  totalLeviesEl.textContent = member.levies.map(l => l.label).join(", ");
+  totalPaidEl.textContent = member.levies.filter(l => l.status.includes("Cleared")).map(l => l.label).join(", ");
+  totalOutstandingEl.textContent = member.levies.filter(l => !l.status.includes("Cleared")).map(l => l.label).join(", ");
 
   paymentTableEl.innerHTML = '';
   member.levies.forEach(l => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${l.label}</td>
-      <td>${formatCurrency(l.amount)}</td>
-      <td>${l.paid ? 'Paid' : 'Unpaid'}</td>
-      <td>${l.date ? new Date(l.date).toLocaleDateString() : '-'}</td>
+      <td>${l.status}</td>
     `;
     paymentTableEl.appendChild(tr);
   });

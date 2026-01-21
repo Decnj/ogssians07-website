@@ -106,11 +106,20 @@ body::before {
 .section-header { text-align: center; margin-bottom: 1rem; }
 
 /* Events */
+
+.events-filters {
+  margin-bottom: 2rem;   /* adds space below the filter buttons */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;           /* spacing between the buttons themselves */
+}
+
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
 }
+
 .card {
   background: var(--white);
   color: var(--blue);
@@ -118,12 +127,52 @@ body::before {
   padding: 1.5rem;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;   /* anchor for overlay image */
+  cursor: pointer;      /* makes it clear you can click */
 }
+
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
-.meta { color: var(--blue); font-size: 0.9rem; }
+
+.meta {
+  color: var(--blue);
+  font-size: 0.9rem;
+}
+
+/* Write-up container */
+.card-content {
+  margin-bottom: 1rem; /* adds space below the buttons */
+  max-height: 160px;     /* keeps text compact */
+  overflow: hidden;      /* trims long text */
+}
+
+/* IV image overlay (hidden by default) */
+.card-image {
+  margin-top: 1rem; /* ensures gap above the IV */
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1000;
+}
+
+.card-image img {
+  max-width: 300px;      /* bigger than card */
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+}
+
+/* Reveal IV smoothly on click */
+.card.show-image .card-image {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
 
 /* Chips */
 .chip {
@@ -142,14 +191,39 @@ body::before {
 /* Gallery */
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* smaller boxes */
+  gap: 0.75rem;
 }
+
 .gallery-item {
-  background: var(--blue);
-  aspect-ratio: 1 / 1;
   border-radius: 8px;
-  opacity: 0.2;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  position: relative;
+}
+
+.gallery-item img {
+  width: 100%;
+  aspect-ratio: 1 / 1;       /* keeps all images square and equal */
+  object-fit: cover;         /* crops neatly */
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.gallery-item img.special-fit {
+  object-fit: contain;
+  background: #000; /* optional: black background fill */
+}
+
+.gallery-item:hover {
+  transform: scale(1.8);       /* expands to almost fill the screen */
+  z-index: 10;               /* lifts above neighbors */
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4); /* stronger shadow */
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1);     /* slight zoom inside the box */
 }
 
 /* Financials */
@@ -266,5 +340,3 @@ body::before {
     min-width: 220px;
   }
   .nav-links.show { display: flex; }
-  .finance-summary { flex-direction: column; }
-}
